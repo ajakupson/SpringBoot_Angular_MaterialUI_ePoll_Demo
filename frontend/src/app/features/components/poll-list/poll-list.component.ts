@@ -102,6 +102,7 @@ export class PollListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.polls.push(result);
+        this.dataSource.data = [...this.polls];
       }
     });
   }
