@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content class="mat-typography">
+  <ul>
+    <li *ngFor="let option of data.options">
+      <mat-radio-button
+        [value]="option.id"
+        name="pollOption"
+        (click)="selectOption(option)">
+        {{ option.title }} <span class="votes">({{ option.votes }} votes)</span> 
+      </mat-radio-button>
+    </li>
+  </ul>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="submitAnswer()" cdkFocusInitial>Submit</button>
+</mat-dialog-actions>

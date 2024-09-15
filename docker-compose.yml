@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+  epoll_postgres:
+    image: 'postgres:latest'
+    environment:
+      POSTGRES_DB: epoll
+      POSTGRES_PASSWORD: epoll
+      POSTGRES_USER: epoll
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    networks:
+      - epoll_network
+
+  backend:
+    build: 
+      context: ./backend/
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/backend
+    ports:
+      - '8080:8080'
+    command: mvn spring-boot:run    
+    depends_on:
+      - epoll_postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://epoll_postgres:5432/epoll
+    networks:
+      - epoll_network
+
+  frontend:
+    build: 
+      context: ./frontend/
+      dockerfile: Dockerfile 
+    volumes:
+      - ./frontend:/frontend
+      - /frontend/node_modules
+    ports:
+      - '4200:4200'
+    command: ng serve --host 0.0.0.0 --poll=2000 
+    depends_on:
+      backend:
+        condition: service_started
+    networks:
+      - epoll_network
+    environment:
+      - CHOKIDAR_USEPOLLING=true   
+
+volumes:
+  postgres_data:
+
+networks:
+  epoll_network:

@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Create New Poll</h2>
+<mat-dialog-content class="mat-typography">
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Poll Title</mat-label>
+    <input matInput [(ngModel)]="pollTitle" />
+  </mat-form-field>
+
+  <h4>Options</h4>
+  <div *ngFor="let option of pollOptions; let i = index; trackBy: trackByFn">
+    <mat-form-field appearance="fill" class="full-width">
+      <input matInput [(ngModel)]="pollOptions[i]" placeholder="Option {{ i + 1 }}" />
+    </mat-form-field>
+    <button mat-icon-button (click)="removeOption(i)" *ngIf="pollOptions.length > 1">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+  
+  <button mat-button (click)="addOption()">Add Option</button>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="submitPoll()">Create Poll</button>
+</mat-dialog-actions>

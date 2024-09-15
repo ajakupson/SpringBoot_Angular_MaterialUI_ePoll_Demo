@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="header">
+    <h2>List of Polls</h2>
+    <button mat-raised-button color="primary" (click)="openCreatePollDialog()">Create New Poll</button>
+  </div>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Filter polls</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Filter by title">
+  </mat-form-field>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let poll"> {{poll.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef> Title </th>
+      <td mat-cell *matCellDef="let poll"> {{poll.title}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let poll">
+        <button mat-button (click)="openPollDialog(poll)">Answer Poll</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+    <tr mat-row *matRowDef="let poll; columns: displayedColumns;"></tr>
+
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+</div>

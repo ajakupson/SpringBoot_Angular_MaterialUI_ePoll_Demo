@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS polls_options (
+    id SERIAL PRIMARY KEY,
+    poll_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    votes INT DEFAULT 0,
+    FOREIGN KEY (poll_id) REFERENCES polls(id) ON DELETE CASCADE
+);
